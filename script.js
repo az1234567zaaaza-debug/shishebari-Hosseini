@@ -1,33 +1,5 @@
-// اطلاعات ربات تلگرام
-const TELEGRAM_TOKEN = '8659280571:AAEsouKD6xpf24qjENEYNH5czFupBf3PSWs';
-const TELEGRAM_CHAT_ID = '7618308200';
-
-// تابع ارسال پیام به تلگرام
-function sendToTelegram(message) {
-    const url = 'https://api.telegram.org/bot' + TELEGRAM_TOKEN + '/sendMessage';
-    
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            chat_id: TELEGRAM_CHAT_ID,
-            text: message
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.ok) {
-            alert('✅ سفارش شما با موفقیت ثبت شد!\nبه زودی با شما تماس خواهیم گرفت.');
-        } else {
-            alert('❌ خطا! لطفاً با ۰۹۱۵-۸۱۴-۰۰۳۶ تماس بگیرید.');
-        }
-    })
-    .catch(error => {
-        alert('❌ خطا در اتصال! لطفاً با ۰۹۱۵-۸۱۴-۰۰۳۶ تماس بگیرید.');
-    });
-}
+// شماره واتساپ برای دریافت سفارش
+const WHATSAPP_NUMBER = '989031985104';
 
 // تاریخ فارسی
 function getPersianDate() {
@@ -72,7 +44,9 @@ document.getElementById('order-form').addEventListener('submit', function(e) {
     if (description) message += '📝 توضیحات: ' + description + '\n';
     message += '━━━━━━━━━━━━━━━━';
     
-    sendToTelegram(message);
+    const whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+    window.open(whatsappUrl, '_blank');
+    
     this.reset();
     if (dateField) {
         dateField.value = getPersianDate();
@@ -94,7 +68,9 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     if (messageText) message += '📝 پیام: ' + messageText + '\n';
     message += '━━━━━━━━━━━━━━━━';
     
-    sendToTelegram(message);
+    const whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+    window.open(whatsappUrl, '_blank');
+    
     this.reset();
 });
 
