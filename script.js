@@ -13,8 +13,7 @@ function sendToTelegram(message) {
         },
         body: JSON.stringify({
             chat_id: TELEGRAM_CHAT_ID,
-            text: message,
-            parse_mode: 'HTML'
+            text: message
         })
     })
     .then(response => response.json())
@@ -22,11 +21,11 @@ function sendToTelegram(message) {
         if (data.ok) {
             alert('✅ سفارش شما با موفقیت ثبت شد!\nبه زودی با شما تماس خواهیم گرفت.');
         } else {
-            alert('❌ خطا در ثبت سفارش!\nلطفاً با شماره ۰۹۱۵-۸۱۴-۰۰۳۶ تماس بگیرید.');
+            alert('❌ خطا! لطفاً با ۰۹۱۵-۸۱۴-۰۰۳۶ تماس بگیرید.');
         }
     })
     .catch(error => {
-        alert('❌ خطا در اتصال!\nلطفاً با شماره ۰۹۱۵-۸۱۴-۰۰۳۶ تماس بگیرید.');
+        alert('❌ خطا در اتصال! لطفاً با ۰۹۱۵-۸۱۴-۰۰۳۶ تماس بگیرید.');
     });
 }
 
@@ -52,26 +51,25 @@ if (dateField) {
 document.getElementById('order-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const formData = new FormData(this);
-    const name = formData.get('name') || '';
-    const phone = formData.get('phone') || '';
-    const service = formData.get('service') || '';
-    const quantity = formData.get('quantity') || '';
-    const dimensions = formData.get('dimensions') || '';
-    const address = formData.get('address') || '';
-    const description = formData.get('description') || '';
+    const name = this.querySelector('input[name="name"]').value || '';
+    const phone = this.querySelector('input[name="phone"]').value || '';
+    const service = this.querySelector('select[name="service"]').value || '';
+    const quantity = this.querySelector('input[name="quantity"]').value || '';
+    const dimensions = this.querySelector('input[name="dimensions"]').value || '';
+    const address = this.querySelector('input[name="address"]').value || '';
+    const description = this.querySelector('textarea[name="description"]').value || '';
     const orderDate = dateField ? dateField.value : '';
     
-    let message = '🆕 <b>سفارش جدید از سایت</b>\n';
+    let message = '🆕 سفارش جدید از سایت\n';
     message += '━━━━━━━━━━━━━━━━\n';
-    message += '📅 <b>تاریخ:</b> ' + orderDate + '\n';
-    message += '👤 <b>نام:</b> ' + name + '\n';
-    message += '📞 <b>تلفن:</b> ' + phone + '\n';
-    message += '🔧 <b>خدمات:</b> ' + service + '\n';
-    if (quantity) message += '🔢 <b>تعداد:</b> ' + quantity + '\n';
-    if (dimensions) message += '📏 <b>ابعاد:</b> ' + dimensions + '\n';
-    message += '📍 <b>آدرس:</b> ' + address + '\n';
-    if (description) message += '📝 <b>توضیحات:</b> ' + description + '\n';
+    message += '📅 تاریخ: ' + orderDate + '\n';
+    message += '👤 نام: ' + name + '\n';
+    message += '📞 تلفن: ' + phone + '\n';
+    message += '🔧 خدمات: ' + service + '\n';
+    if (quantity) message += '🔢 تعداد: ' + quantity + '\n';
+    if (dimensions) message += '📏 ابعاد: ' + dimensions + '\n';
+    message += '📍 آدرس: ' + address + '\n';
+    if (description) message += '📝 توضیحات: ' + description + '\n';
     message += '━━━━━━━━━━━━━━━━';
     
     sendToTelegram(message);
@@ -85,16 +83,15 @@ document.getElementById('order-form').addEventListener('submit', function(e) {
 document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const formData = new FormData(this);
-    const name = formData.get('name') || '';
-    const phone = formData.get('phone') || '';
-    const messageText = formData.get('message') || '';
+    const name = this.querySelector('input[name="name"]').value || '';
+    const phone = this.querySelector('input[name="phone"]').value || '';
+    const messageText = this.querySelector('textarea[name="message"]').value || '';
     
-    let message = '📩 <b>پیام جدید از سایت</b>\n';
+    let message = '📩 پیام جدید از سایت\n';
     message += '━━━━━━━━━━━━━━━━\n';
-    message += '👤 <b>نام:</b> ' + name + '\n';
-    message += '📞 <b>تلفن:</b> ' + phone + '\n';
-    if (messageText) message += '📝 <b>پیام:</b> ' + messageText + '\n';
+    message += '👤 نام: ' + name + '\n';
+    message += '📞 تلفن: ' + phone + '\n';
+    if (messageText) message += '📝 پیام: ' + messageText + '\n';
     message += '━━━━━━━━━━━━━━━━';
     
     sendToTelegram(message);
@@ -118,6 +115,5 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // سال فوتر
 const yearElement = document.querySelector('.footer-bottom p');
 if (yearElement) {
-    const currentYear = new Date().getFullYear();
-    yearElement.textContent = `© ${currentYear} نمایندگی درب‌های اتوماتیک شیشه‌ای حسینی | تمامی حقوق محفوظ است.`;
+    yearElement.textContent = '© ۱۴۰۳ نمایندگی درب‌های اتوماتیک شیشه‌ای حسینی | تمامی حقوق محفوظ است.';
 }
