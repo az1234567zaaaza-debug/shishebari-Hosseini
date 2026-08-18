@@ -1,4 +1,4 @@
-// شماره واتساپ برای دریافت سفارش
+// شماره واتساپ
 const WHATSAPP_NUMBER = '989031985104';
 
 // تاریخ فارسی
@@ -7,8 +7,7 @@ function getPersianDate() {
     const persianDate = new Intl.DateTimeFormat('fa-IR', {
         year: 'numeric',
         month: 'long',
-        day: 'numeric',
-        weekday: 'long'
+        day: 'numeric'
     }).format(now);
     return persianDate;
 }
@@ -23,55 +22,43 @@ if (dateField) {
 document.getElementById('order-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const name = this.querySelector('input[name="name"]').value || '';
-    const phone = this.querySelector('input[name="phone"]').value || '';
-    const service = this.querySelector('select[name="service"]').value || '';
-    const quantity = this.querySelector('input[name="quantity"]').value || '';
-    const dimensions = this.querySelector('input[name="dimensions"]').value || '';
-    const address = this.querySelector('input[name="address"]').value || '';
-    const description = this.querySelector('textarea[name="description"]').value || '';
-    const orderDate = dateField ? dateField.value : '';
+    const name = document.querySelector('input[name="name"]').value;
+    const phone = document.querySelector('input[name="phone"]').value;
+    const service = document.querySelector('select[name="service"]').value;
+    const quantity = document.querySelector('input[name="quantity"]').value;
+    const dimensions = document.querySelector('input[name="dimensions"]').value;
+    const address = document.querySelector('input[name="address"]').value;
+    const description = document.querySelector('textarea[name="description"]').value;
     
-    let message = '🆕 سفارش جدید از سایت\n';
-    message += '━━━━━━━━━━━━━━━━\n';
-    message += '📅 تاریخ: ' + orderDate + '\n';
-    message += '👤 نام: ' + name + '\n';
-    message += '📞 تلفن: ' + phone + '\n';
-    message += '🔧 خدمات: ' + service + '\n';
-    if (quantity) message += '🔢 تعداد: ' + quantity + '\n';
-    if (dimensions) message += '📏 ابعاد: ' + dimensions + '\n';
-    message += '📍 آدرس: ' + address + '\n';
-    if (description) message += '📝 توضیحات: ' + description + '\n';
-    message += '━━━━━━━━━━━━━━━━';
+    let text = 'سفارش جدید از سایت\n';
+    text += 'تاریخ: ' + getPersianDate() + '\n';
+    text += 'نام: ' + name + '\n';
+    text += 'تلفن: ' + phone + '\n';
+    text += 'خدمات: ' + service + '\n';
+    if (quantity) text += 'تعداد: ' + quantity + '\n';
+    if (dimensions) text += 'ابعاد: ' + dimensions + '\n';
+    text += 'آدرس: ' + address + '\n';
+    if (description) text += 'توضیحات: ' + description;
     
-    const whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
-    window.open(whatsappUrl, '_blank');
-    
-    this.reset();
-    if (dateField) {
-        dateField.value = getPersianDate();
-    }
+    const url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text);
+    window.location.href = url;
 });
 
 // فرم تماس
 document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const name = this.querySelector('input[name="name"]').value || '';
-    const phone = this.querySelector('input[name="phone"]').value || '';
-    const messageText = this.querySelector('textarea[name="message"]').value || '';
+    const name = document.querySelector('input[name="name"]').value;
+    const phone = document.querySelector('input[name="phone"]').value;
+    const messageText = document.querySelector('textarea[name="message"]').value;
     
-    let message = '📩 پیام جدید از سایت\n';
-    message += '━━━━━━━━━━━━━━━━\n';
-    message += '👤 نام: ' + name + '\n';
-    message += '📞 تلفن: ' + phone + '\n';
-    if (messageText) message += '📝 پیام: ' + messageText + '\n';
-    message += '━━━━━━━━━━━━━━━━';
+    let text = 'پیام جدید از سایت\n';
+    text += 'نام: ' + name + '\n';
+    text += 'تلفن: ' + phone + '\n';
+    text += 'پیام: ' + messageText;
     
-    const whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
-    window.open(whatsappUrl, '_blank');
-    
-    this.reset();
+    const url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text);
+    window.location.href = url;
 });
 
 // اسکرول نرم
@@ -87,9 +74,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-// سال فوتر
-const yearElement = document.querySelector('.footer-bottom p');
-if (yearElement) {
-    yearElement.textContent = '© ۱۴۰۳ نمایندگی درب‌های اتوماتیک شیشه‌ای حسینی | تمامی حقوق محفوظ است.';
-}
